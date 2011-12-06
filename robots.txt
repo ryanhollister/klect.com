@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /application/
+Disallow: /catalog/
+Disallow: /img/
+Disallow: /home/
+Disallow: /js/
+Disallow: /old/
+Disallow: /scripts/
+Disallow: /stats/
+Disallow: /system/

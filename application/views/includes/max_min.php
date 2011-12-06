@@ -1,0 +1,1 @@
+<img class="max_min" src="/img/maximize.png" alt="Shrink this Pane" style="float: right; margin-right: 18px; margin-top: 15px;"/>
