@@ -80,6 +80,7 @@ class Person_model extends CI_Model {
 		$this->db->where('email', $inputEmail );
 		$query = $this->db->get('person');
 		
+		// user already has an account
 		if($query->num_rows != 0)
 		{
 			return "email";
@@ -89,6 +90,7 @@ class Person_model extends CI_Model {
 		$this->db->where('username', $inputUname);
 		$query = $this->db->get('person');
 		
+		// username is already taken
 		if($query->num_rows != 0)
 		{
 			return "username";
@@ -109,6 +111,7 @@ class Person_model extends CI_Model {
 		$personVO->setSubId(null);
 		$personVO->setReg_date(time());
 		
+		// lets send the welcome email
 		$this->load->library('email');
 		
 		$config['mailtype'] = 'html';
@@ -356,6 +359,7 @@ Again, thank you for joining KLECT. We value your feedback.', 'Welcome to Klect.
 		$i = 0;
 		$sum = 0;
 		
+		// add up all the users past sale ratings
 		foreach ($query->result() as $row)
 		{
 			$sum += $row->buyer_rating;
@@ -383,9 +387,14 @@ Again, thank you for joining KLECT. We value your feedback.', 'Welcome to Klect.
 		
 		if ($i > 0)
 		{
+			// divide by the number of sales
 			$num = $sum/$i;
+			
+			// if the number is between X.75-X.00 round up
 			if($num >= ($half = ($ceil = ceil($num))- 0.5) + 0.25) return $ceil;
+			// if number is between X.00 and X.25 then round down
 			else if($num < $half - 0.25) return floor($num);
+			// else we will round to the middle X.50
 			else return $half;
 		}
 		else
