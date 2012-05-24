@@ -2,6 +2,9 @@
 include_once('item_model.php');
 class Sale_model extends Item_model {
 	
+	/**
+	Submits a sale to the system or updates and existing sale if a saleId is specified
+	**/
 	function submit_sale()
 	{
 		$saleId = (int)$this->input->post('saleId');
@@ -25,6 +28,7 @@ class Sale_model extends Item_model {
 		
 		$saleVO = new SaleVO();
 		
+		// If a saleId is specified then we are updating an existing sale.
 		if ($saleId !== '')
 		{
 			$saleVO->setSaleId($saleId);
@@ -92,6 +96,7 @@ class Sale_model extends Item_model {
 				//unlink('./img/'.$this->phpsession->get('current_domain')->getTag().'/uploads/'.$this->input->post('filename'));
 			}
 		}
+		// User has the option of using their custom catalog picture for the sale.
 		elseif ($this->input->post('filename') == 'custom')
 		{
 			$oiVO = $this->getOwnedItems(array($oi_id), false, false, true);
