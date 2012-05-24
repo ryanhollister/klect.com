@@ -12,7 +12,7 @@ class Item_model extends CI_Model {
 	 * 
 	 * $offset is used for pagination
 	 * 
-	 * $filter_mp_visible will restrict the results to only items whose oi.mp_visible = true
+	 * $filter_mp_visible will restrict the results to only items whose oi.mp_visible = true (marketplace)
 	 * 
 	 * returns an array of Current Domain ItemVOs
 	 * 
@@ -69,14 +69,18 @@ class Item_model extends CI_Model {
 				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getTag () );
 				$retVal [$row->owned_item_id] = $tempObj;
 			}
-			return $retVal;
 		}
-		return array ();
+		return $retVal;
 	}
 	
 	/**
 	 * Get a collection of ItemVOs for the requested owned items.
 	 * 
+	 * item_ids is an array of ids to lookup
+	 * inc_sales toggles between including or excluding sales in the results
+	 * offset is used for pagination
+	 * owned_items toggles between looking up items or owned item table (ultimatly whether the item_ids parameter is owned item ids or just item ids)
+	 *
 	 * returns an array of Current Domain ItemVOs
 	 * 
 	 */
@@ -167,6 +171,8 @@ class Item_model extends CI_Model {
 	/**
 	 * Returns an array of ItemVOs for the current domain that the current user does not have in their collection. 
 	 * It will return only the specified item ids if "item_ids" is passed.
+	 *
+	 * item_ids is an optional array to limit the result by certain item_ids, if not specified function returns all unowned items
 	 * 
 	 * @param array $item_ids
 	 */
@@ -215,6 +221,9 @@ class Item_model extends CI_Model {
 	/**
 	 * Returns an array of ItemVOs for the current domain. 
 	 * It will return only the specified item ids if "item_ids" is passed.
+	 *
+	 * owned_items specifies whether item_ids are owned_item_ids or just item_ids
+	 * offset is used for pagination
 	 * 
 	 * @param array $item_ids
 	 * 
@@ -349,7 +358,7 @@ class Item_model extends CI_Model {
 		$config ['width'] = "150";
 		$config ['maintain_ratio'] = TRUE;
 		
-		//load width and ratio setting to resize image to 200px wide
+		//load width and ratio setting to resize image to 150px wide
 		$this->image_lib->initialize ( $config );
 		$this->image_lib->resize ();
 		$this->image_lib->clear ();
@@ -363,7 +372,7 @@ class Item_model extends CI_Model {
 		$config ['width'] = "100";
 		$config ['maintain_ratio'] = TRUE;
 		
-		//load width and ratio setting to resize image to 200px wide
+		//load width and ratio setting to resize image to 100px wide
 		$this->image_lib->initialize ( $config );
 		
 		if (! $this->image_lib->resize ()) {
