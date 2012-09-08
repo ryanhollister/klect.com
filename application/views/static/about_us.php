@@ -60,19 +60,8 @@ enterprise-level implementations.</p>
 <p>Michael received his BBA in Computer Science from the University of
 Texas.</p>
 <p>
-<h3>Elizabeth Bula, Intern</h3>
-</p>
-<p>Pursuing a Bachelor of Science in Communication Studies from the
-College of Communication at the University of Texas at Austin, Elizabeth
-Bula is our first intern. In addition to classes in public relations and
-advertising, Bula will also earn a Business Foundations Certificate of
-Completion. Elizabeth assists with a variety of things in relation to
-corporate communications and software design support. When she’s not
-working at KLECT or studying for classes, you’ll be able to find her out
-on the dance floor of her favorite country dance hall and enjoying all
-that Austin has to offer.</p>
 <p><span style="font-weight:bold">Special thanks</span> to others who
-provided invaluable early consultation and advice: Zheng Zhu, Lilliana
+provided invaluable early consultation and advice: Elizabeth Bula, Jimmy Ruth,Zheng Zhu, Lilliana
 Lui, Kevin Kim, Gary Zintgraff, Dr. CJ Picha, Summer Hayes, Amber Oliver
 and all the friends and family who helped KLECT launch!<br />
 <br />

@@ -4,6 +4,7 @@ class Item_filtering extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('sale_model');
 		is_logged_in();
 	}
 	
@@ -119,7 +120,6 @@ class Item_filtering extends CI_Controller
 				$this->load->view('modules/my_collection_item', $data);
 				break;
 			case "dashboard":
-				$this->load->model('sale_model');
 				$data['pending_sales'] = $this->sale_model->get_persons_pending();
 				$data['active_sales'] = $this->sale_model->get_persons_active();
 				$data['collection_items'] = $this->item_model->getPersonsItems(false, $offset);
@@ -157,7 +157,6 @@ class Item_filtering extends CI_Controller
 				$this->load->view('modules/my_collection_item', $data);
 				break;
 			case "dashboard":
-				$this->load->model('sale_model');
 				$data['pending_sales'] = $this->sale_model->get_persons_pending();
 				$data['active_sales'] = $this->sale_model->get_persons_active();
 				$data['collection_items'] = $this->item_model->getPersonsItems($data['filter_ids'], $offset);
@@ -237,6 +236,12 @@ class Item_filtering extends CI_Controller
 						$data['catalog_items'] = $this->item_model->getUnownedItems(false, $offset);
 						$this->load->view('modules/wish_list_item', $data);
 						break;
+					case "dashboard":
+						$data['pending_sales'] = $this->sale_model->get_persons_pending();
+						$data['active_sales'] = $this->sale_model->get_persons_active();
+						$data['catalog_items'] = $this->item_model->getPersonsItems(false, $offset);
+						$this->load->view('modules/catalog_item', $data);
+						break;
 					default:
 						$data['catalog_items'] = $this->item_model->getItems(false, false, $offset);
 						$this->load->view('modules/catalog_item', $data);
@@ -282,7 +287,7 @@ class Item_filtering extends CI_Controller
 			case "dashboard":
 				$data['pending_sales'] = $this->sale_model->get_persons_pending();
 				$data['active_sales'] = $this->sale_model->get_persons_active();
-				$data['collection_items'] = $this->item_model->getPersonsItems($data['filter_ids'], $offset);
+				$data['catalog_items'] = $this->item_model->getPersonsItems($data['filter_ids'], $offset);
 				$this->load->view('modules/catalog_item', $data);
 				break;
 			default:

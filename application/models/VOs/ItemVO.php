@@ -14,6 +14,7 @@ class ItemVO {
 	public $manufacturer;
 	public $modified;
 	public $pictures;
+	public $approved;
 	
 	private $attr_map;
 	
@@ -28,6 +29,7 @@ class ItemVO {
 		$this->modified = false;
 		$this->pictures = array();
 		$this->initialize_attributes();
+		$this->approved = '0';
 	}
 	
 	/**
@@ -97,12 +99,20 @@ class ItemVO {
 		}
 		return "/img/".$this->domain."/".$type."/".$size."/".$this->pictures[0];
 	}
+	
+	public function getApproved() {
+		return $this->approved;
+	}
 
 	/**
 	 * @return the $attr_map
 	 */
 	public function getAttr_map() {
 		return $this->attr_map;
+	}
+	
+	public function setApproved($approved) {
+		$this->approved = $approved;
 	}
 
 	/**

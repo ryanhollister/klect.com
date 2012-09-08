@@ -2,8 +2,7 @@
 require_once APPPATH.'controllers/site'.EXT;
 
 class Login extends Site
-{
-	
+{	
 	function index($data = array())
 	{
 		$this->load->model('domain_model');

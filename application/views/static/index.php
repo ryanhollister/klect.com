@@ -18,7 +18,4 @@
 <p style="text-align: justify">KLECT works on any web enabled operating system (Mac, PC, Linux, Android, iPhone, etc). It is a must for any collector looking to track and value their collection. A great tool for new collectors too.</p>
 <p style="text-align: justify">KLECT is free to sign up and we only charge for users that wish to sell items in the Marketplace.</p>
 <div style="width: 180px; margin: 25px auto;"><!-- (c) 2005, 2011. Authorize.Net is a registered trademark of CyberSource Corporation -->
-<div class="AuthorizeNetSeal" style="float: left;">
-<script	type="text/javascript" language="javascript">var ANS_customer_id="1b95ba1b-b0aa-4243-86eb-2b97a65ebe48";</script>
-<script type="text/javascript" language="javascript" src="//verify.authorize.net/anetseal/seal.js"></script> 
-<a href="http://www.authorize.net/" id="AuthorizeNetText" target="_blank">Accept Credit Cards Online</a></div><img src="/img/stamp/friends/asda.jpg" width="90px" /></div>
+<img src="/img/stamp/friends/asda.jpg" width="90px" /></div>

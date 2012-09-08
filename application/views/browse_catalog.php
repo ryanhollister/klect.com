@@ -29,4 +29,13 @@
 				<div class="cpanel-right-box-footer"></div>
 		</div>
 	</div>
+<div id="dialog-modal" title="<?=constant($this->phpsession->get('current_domain')->getTag().'_ITEM')?> Details" style="font-size:14px;">
+	<div class="catalog_image"><img src="" id="catalog_image" /></div>
+	<br/><?=constant($this->phpsession->get('current_domain')->getTag().'_ITEM')?> Name: <div id="catalog_name" class="catalog_div" style="text-transform:capitalize"></div>
+	<br/><?=constant($this->phpsession->get('current_domain')->getTag().'_ITEM')?> Description: <div id="catalog_description" class="catalog_div"></div>
+	<br/>Manufacturer: <div id="catalog_manufacturer" class="catalog_div" style="text-transform:capitalize"></div>
+	<br/><?=constant($this->phpsession->get('current_domain')->getTag().'_ITEM')?> Attributes: <br/><div id="catalog_attributes" class="catalog_div"></div>
+	<div id="catalog_item_attributes" class="" style=""></div>
+</div>
+<?php $this->load->view('dialogs/community_add.php'); ?>
 <?php $this->load->view('includes/members_footer'); ?>

@@ -321,31 +321,6 @@ function clearfilters()
 	scroll(0,0);
 }
 
-$(document).ready(function() {
-	$.fn.clearForm = function() {
-	  return this.each(function() {
-	    var type = this.type, tag = this.tagName.toLowerCase();
-	    if (tag == 'form')
-	      return $(':input',this).clearForm();
-	    if (type == 'text' || type == 'password' || tag == 'textarea')
-	      this.value = '';
-	    else if (type == 'checkbox' || type == 'radio')
-	      this.checked = false;
-	    else if (tag == 'select')
-	      this.selectedIndex = -1;
-	  });
-	};
-	
-	$("#filterform").keyup(function(event){
-		  if(event.keyCode == 13){
-			  filter_submit();
-			  scroll(0,0);
-		  }
-		});
-});
-
-
-
 function filter_submit()
 {
 	content_left_processing('catalog_container');

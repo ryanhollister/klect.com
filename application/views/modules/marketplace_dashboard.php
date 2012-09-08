@@ -8,14 +8,14 @@ else
 ?>
 <img src="/img/<?=$this->phpsession->get('current_domain')->getTag()?>/buy_a_disabled.jpg" title="You have not entered shipping information, please do so from the edit profile screen."/><p style="margin-bottom:16px">You have not entered shipping information, please do so from the edit profile screen.</p>
 <? } ?>
-<? if ($this->phpsession->get('personVO')->getPremium() == 1) { ?>
+<? if (($this->phpsession->get('personVO')->getAddr1() != '') && ($this->phpsession->get('personVO')->getZip() != '')) { ?>
 	<a href="<?=base_url();?>marketplace/sell"><img src="/img/<?=$this->phpsession->get('current_domain')->getTag()?>/sell_a.jpg"/></a><br/>
 <?php 
 }
 else
 {
 ?>
-<img src="/img/<?=$this->phpsession->get('current_domain')->getTag()?>/sell_a_disabled.jpg" title="You must be a premium member to sell items in the marketplace!"/><p>You must be a premium member to sell items in the marketplace! You can subscribe from the edit profile dialog on the main page<? if (($this->phpsession->get('personVO')->getPremium() != 1) && ($this->phpsession->get('personVO')->getSubId() !== '0')) { ?>, its a free 30 day trial so you wont be charged until <?=date("F j, Y", strtotime('+1 month')); }?>!</p></br>
+<img src="/img/<?=$this->phpsession->get('current_domain')->getTag()?>/sell_a_disabled.jpg" title="You must be a premium member to sell items in the marketplace!"/><p></p></br>
 <? } ?>
 <br/><br/>Need some help navigating the buying and selling in the KLECT marketplace? <a href="https://klect.com/site/faq">Check out our FAQ page for some videos!</a>
 	<div style="margin:10px auto; width:90px">

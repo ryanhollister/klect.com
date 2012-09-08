@@ -1,0 +1,21 @@
+RewriteEngine on
+RewriteCond $1 !^(index\.php|favicon\.ico|static|images|css|js|img|robots\.txt)
+RewriteRule ^(.*)$ /index.php?/$1 [L]
+<IfModule mod_headers.c>
+  # 1 YEAR
+<FilesMatch "\.(ico|pdf|flv)$">
+Header set Cache-Control "max-age=29030400, public"
+</FilesMatch>
+# 1 WEEK
+<FilesMatch "\.(jpg|jpeg|png|gif|swf)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+# 2 DAYS
+<FilesMatch "\.(xml|txt|css|js)$">
+Header set Cache-Control "max-age=172800, proxy-revalidate"
+</FilesMatch>
+<FILES "(config\.php|database\.php)$">
+  Order allow,deny
+  Deny from all
+</FILES>
+</ifmodule>

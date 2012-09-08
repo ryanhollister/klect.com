@@ -38,7 +38,7 @@
 			</span><br/><br/>
 			<? }?>
 			KLECT's Est. Value: $<?=$collection_value?><br/><br/>
-			Number of <?=constant($this->phpsession->get('current_domain')->getTag().'_ITEMS')?>: <?=count($collection_items)?>
+			Number of <?=constant($this->phpsession->get('current_domain')->getTag().'_ITEMS')?>: <?=$this->pagination->total_rows?>
 			</div>
 			<div class="cpanel-right-box-footer"></div>
 			<div class="cpanel-right-box-header">

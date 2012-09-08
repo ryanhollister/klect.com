@@ -851,4 +851,12 @@ a.tooltip:hover span{display:inline; position:absolute; background:#ffffff; bord
 	font-size:12px !important;
 	font-weight:normal !important;
 	line-height:14px !important;
-} 
+}
+
+#community_add > form > input, #community_add > label {
+	display:inline;
+}
+
+.ready_for_submit {
+	border: solid 3px green;
+}

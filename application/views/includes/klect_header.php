@@ -48,6 +48,17 @@
 	<div class="header" style="background:transparent url('/css/images/banner.gif') no-repeat;">
 	<a href="http://www.facebook.com/pages/Stamp_Collecting_KLECT/190454150982573" target="_blank" class="KLECT facebook"></a>
 	<a href="http://www.twitter.com/KLECT_Stamps" target="_blank" class="twitter"></a>
+	<!-- Place this tag where you want the +1 button to render -->
+	<span style="float: right; position: relative; top: 21px; right: 10px;"><g:plusone annotation="none"></g:plusone></span>
+
+	<!-- Place this render call where appropriate -->
+	<script type="text/javascript">
+	 (function() {
+	   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	   po.src = 'https://apis.google.com/js/plusone.js';
+	   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	 })();
+	</script>
 	</div>
 	</div>
 	<div class="banner-nav-wrapper">

@@ -110,7 +110,7 @@ class PersonVO {
 	 * @return the $premium
 	 */
 	public function getPremium() {
-		return $this->premium;
+		return (($this->getAddr1() != '') && ($this->getZip() != ''));
 	}
 
 	/**

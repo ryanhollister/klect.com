@@ -40,20 +40,6 @@ function clearfilters()
 	filter_submit();
 }
 
-$.fn.clearForm = function() {
-  return this.each(function() {
-    var type = this.type, tag = this.tagName.toLowerCase();
-    if (tag == 'form')
-      return $(':input',this).clearForm();
-    if (type == 'text' || type == 'password' || tag == 'textarea')
-      this.value = '';
-    else if (type == 'checkbox' || type == 'radio')
-      this.checked = false;
-    else if (tag == 'select')
-      this.selectedIndex = -1;
-  });
-};
-
 function showLearnMore()
 {
 	newwindow=window.open('/site/faq#picture_format','name','height=250,width=900');
@@ -203,15 +189,3 @@ function filter_submit()
 				rebuild_plus();
 			});
 }
-$('.pagination_links a').live('click', function() {
-	  // Live handler called.
-		content_left_processing('catalog_container');
-		var page = this.href.split('/');
-		page = page[page.length - 1] / 75;
-		$.post(getBaseURL()+"item_filtering/filter/" + parseInt(page, 10) * 75, $("#filterform").serialize(),
-				function (data)
-				{
-					$("#catalog_container").html(data);
-				});
-		return false;
-	});

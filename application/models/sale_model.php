@@ -2,9 +2,6 @@
 include_once('item_model.php');
 class Sale_model extends Item_model {
 	
-	/**
-	Submits a sale to the system or updates and existing sale if a saleId is specified
-	**/
 	function submit_sale()
 	{
 		$saleId = (int)$this->input->post('saleId');
@@ -28,16 +25,9 @@ class Sale_model extends Item_model {
 		
 		$saleVO = new SaleVO();
 		
-		// If a saleId is specified then we are updating an existing sale.
 		if ($saleId !== '')
 		{
 			$saleVO->setSaleId($saleId);
-			// Ensure that the sale being editted is owned by the current user.
-			if ($saleVO->getSellerId() != $person_id) 
-			{
-				echo "-1";
-				return;
-			}
 			$saleVO->Load();
 		}
 		
@@ -102,7 +92,6 @@ class Sale_model extends Item_model {
 				//unlink('./img/'.$this->phpsession->get('current_domain')->getTag().'/uploads/'.$this->input->post('filename'));
 			}
 		}
-		// User has the option of using their custom catalog picture for the sale.
 		elseif ($this->input->post('filename') == 'custom')
 		{
 			$oiVO = $this->getOwnedItems(array($oi_id), false, false, true);
@@ -163,11 +152,9 @@ class Sale_model extends Item_model {
 		
 		$row->methods = implode(', ', $methods);
 		
-		// unset these since we merged them into the methods property
 		unset($row->paypal);
 		unset($row->moneyorder);
 		
-		// need to get the item's value
 		$attrArray = array();
 		$this->db->select('iv.value, vl.label');
 		$this->db->join('value_label vl', 'iv.level=vl.level', 'left');
@@ -198,7 +185,7 @@ class Sale_model extends Item_model {
 		}
 		$obj_merged = (object) array_merge((array) $row, (array) $attrArray);
 		
-		// Get the item's domain attributes and add them to the returned object
+		
 		$attrArray2 = array();
 		$sql = "SELECT da.text, ia.value, da.domain_attribute_id FROM domain_attribute da JOIN item_attribute ia ON ia.domain_attribute_id=da.domain_attribute_id JOIN owned_item oi ON oi.item_item_id=ia.item_id JOIN item i ON i.item_id=oi.item_item_id WHERE oi.owned_item_id=$row->owned_item_id";
 		$query = $this->db->query($sql);
@@ -246,7 +233,6 @@ class Sale_model extends Item_model {
 		
 		$row->methods = implode(', ', $methods);
 		
-		// unset the method properties since we just merged them.
 		unset($row->paypal);
 		unset($row->moneyorder);
 		
@@ -307,7 +293,6 @@ class Sale_model extends Item_model {
 	
 	/**
 	 * Get all pending sales for the current user.
-	 * $active parameter allows the switch between returning active (non-bought) or pending (bought but not paid)
 	 */
 	function get_persons_sales_id($active = true)
 	{
@@ -331,6 +316,8 @@ class Sale_model extends Item_model {
 		
 		$query = $this->db->get('sales s');
 		
+		//echo $this->db->last_query();
+		
 		$retVal = array();
 		
 		if($query->num_rows > 0)
@@ -338,12 +325,12 @@ class Sale_model extends Item_model {
 			foreach ( $query->result() as $row )
 			{
 				$retVal[$row->owned_item_id] = $row->resolved;
-			}	
+			}
+			return $retVal;
 		}
-		return $retVal;
+		return array();	
 	}
 	
-	// get all the sales for the current user that are in the active state (step 1)
 	function get_persons_active()
 	{
 		$person_items = $this->getPersonsItems();
@@ -352,7 +339,6 @@ class Sale_model extends Item_model {
 		return array_intersect_key($person_items, $person_sales);
 	}
 	
-	// get all the sales for the current user that are in the pending state (step 2)
 	function get_persons_pending()
 	{
 		$person_items = $this->getPersonsItems();
@@ -361,7 +347,6 @@ class Sale_model extends Item_model {
 		return array_intersect_key($person_items, $person_sales);
 	}
 	
-	// get a translation array that key's saleIds off of owned item ids
 	function get_oi_to_sale_map()
 	{
 		$this->db->select('s.owned_item_id, s.saleId');
@@ -380,8 +365,9 @@ class Sale_model extends Item_model {
 			{
 				$retVal[$row->owned_item_id] = $row->saleId;
 			}
+			return $retVal;
 		}
-		return $retVal;
+		return array();	
 	}
 	
 	/**
@@ -415,7 +401,6 @@ class Sale_model extends Item_model {
 		echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 	}
 	
-	// send the sale emails to the buyer and seller notifying them of the next steps
 	private function send_sale_emails(SaleVO $saleVO)
 	{
 		/* @var $saleItemVO ItemVO */
@@ -554,7 +539,6 @@ STRING;
 		return $this->db->delete('sales', array('saleId' => $saleId));
 	}
 	
-	// Seller has said the item is shiped.
 	public function mark_as_shipped()
 	{	
 		$saleId = $this->input->post('saleId');
@@ -659,7 +643,6 @@ STRING;
 		return;
 	}
 	
-	// This function is used if the user deactivates their premium membership
 	function delete_pending_sales()
 	{
 		$this->db->where('comp_date IS NULL');

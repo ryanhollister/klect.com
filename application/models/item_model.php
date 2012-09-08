@@ -12,7 +12,7 @@ class Item_model extends CI_Model {
 	 * 
 	 * $offset is used for pagination
 	 * 
-	 * $filter_mp_visible will restrict the results to only items whose oi.mp_visible = true (marketplace)
+	 * $filter_mp_visible will restrict the results to only items whose oi.mp_visible = true
 	 * 
 	 * returns an array of Current Domain ItemVOs
 	 * 
@@ -22,6 +22,7 @@ class Item_model extends CI_Model {
 		$this->db->select ( 'ia.value as date, oi.*, i.name, i.msrp, i.item_id, p.filename' );
 		$this->db->where ( 'person_id', $this->phpsession->get ( 'personVO' )->getPerson_id () );
 		$this->db->where ( 'domain_id', $this->phpsession->get ( 'current_domain' )->getId () );
+		$this->db->where ( 'i.approved', '1');
 		$this->db->join ( 'item i', 'i.item_id = oi.item_item_id' );
 		$this->db->join ( 'pictures p', 'i.item_id=p.item_id AND p.order=0', 'left' );
 		$this->db->join ( 'item_attribute ia', 'ia.item_id=i.item_id AND ia.domain_attribute_id=1', 'left' );
@@ -69,18 +70,14 @@ class Item_model extends CI_Model {
 				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getTag () );
 				$retVal [$row->owned_item_id] = $tempObj;
 			}
+			return $retVal;
 		}
-		return $retVal;
+		return array ();
 	}
 	
 	/**
 	 * Get a collection of ItemVOs for the requested owned items.
 	 * 
-	 * item_ids is an array of ids to lookup
-	 * inc_sales toggles between including or excluding sales in the results
-	 * offset is used for pagination
-	 * owned_items toggles between looking up items or owned item table (ultimatly whether the item_ids parameter is owned item ids or just item ids)
-	 *
 	 * returns an array of Current Domain ItemVOs
 	 * 
 	 */
@@ -95,6 +92,7 @@ class Item_model extends CI_Model {
 		
 		$this->db->select ( 'ia.value as date,oi.owned_item_id as id, oi.*, i.name, i.msrp, i.item_id, p.filename' );
 		$this->db->where ( 'i.domain_id', $this->phpsession->get ( 'current_domain' )->getId () );
+		$this->db->where ( 'i.approved', '1');
 		$this->db->join ( 'item i', 'i.item_id = oi.item_item_id' );
 		$this->db->join ( 'item_' . $this->phpsession->get ( 'current_domain' )->getTag (), 'i.item_id=item_' . $this->phpsession->get ( 'current_domain' )->getTag () . '.item_item_id', 'left' );
 		$this->db->join ( 'pictures p', 'i.item_id=p.item_id AND p.order=0', 'left' );
@@ -159,6 +157,7 @@ class Item_model extends CI_Model {
 		$this->db->where ( 'oi.person_id', $this->phpsession->get ( 'personVO' )->getPerson_id () );
 		$this->db->where ( 'i.domain_id', $domainid );
 		$this->db->where ( '`iv`.`level`', '`oi`.`condition`', FALSE );
+		$this->db->where ( 'i.approved', '1');
 		
 		$query = $this->db->get ( 'item_value iv' );
 		$row = $query->row ();
@@ -171,8 +170,6 @@ class Item_model extends CI_Model {
 	/**
 	 * Returns an array of ItemVOs for the current domain that the current user does not have in their collection. 
 	 * It will return only the specified item ids if "item_ids" is passed.
-	 *
-	 * item_ids is an optional array to limit the result by certain item_ids, if not specified function returns all unowned items
 	 * 
 	 * @param array $item_ids
 	 */
@@ -187,6 +184,7 @@ class Item_model extends CI_Model {
 		$this->db->join ( 'pictures', 'i.item_id=pictures.item_id AND pictures.order=0', 'left' );
 		$this->db->where ( 'i.domain_id', $this->phpsession->get ( 'current_domain' )->getId () );
 		$this->db->where ( 'i.item_id NOT IN (select item_item_id FROM owned_item WHERE person_id=' . $person_id . ')' );
+		$this->db->where ( 'i.approved', '1');
 		
 		if (is_array ( $item_ids )) {
 			$this->db->where ( 'i.item_id IN (' . implode ( ',', $item_ids ) . ')' );
@@ -221,9 +219,6 @@ class Item_model extends CI_Model {
 	/**
 	 * Returns an array of ItemVOs for the current domain. 
 	 * It will return only the specified item ids if "item_ids" is passed.
-	 *
-	 * owned_items specifies whether item_ids are owned_item_ids or just item_ids
-	 * offset is used for pagination
 	 * 
 	 * @param array $item_ids
 	 * 
@@ -237,6 +232,7 @@ class Item_model extends CI_Model {
 		$this->db->join ( 'manufacturer', 'manufacturer.manufacturer_id=i.manufacturer_id' );
 		$this->db->join ( 'pictures', 'i.item_id=pictures.item_id AND pictures.order=0', 'left' );
 		$this->db->where ( 'i.domain_id', $this->phpsession->get ( 'current_domain' )->getId () );
+		$this->db->where ( 'i.approved', '1');
 		
 		if (is_array ( $item_ids ) && count ( $item_ids ) && ! $owned_items) {
 			$this->db->where ( 'i.item_id IN (' . implode ( ',', $item_ids ) . ')' );
@@ -358,7 +354,7 @@ class Item_model extends CI_Model {
 		$config ['width'] = "150";
 		$config ['maintain_ratio'] = TRUE;
 		
-		//load width and ratio setting to resize image to 150px wide
+		//load width and ratio setting to resize image to 200px wide
 		$this->image_lib->initialize ( $config );
 		$this->image_lib->resize ();
 		$this->image_lib->clear ();
@@ -372,7 +368,7 @@ class Item_model extends CI_Model {
 		$config ['width'] = "100";
 		$config ['maintain_ratio'] = TRUE;
 		
-		//load width and ratio setting to resize image to 100px wide
+		//load width and ratio setting to resize image to 200px wide
 		$this->image_lib->initialize ( $config );
 		
 		if (! $this->image_lib->resize ()) {
@@ -434,6 +430,7 @@ class Item_model extends CI_Model {
 		$this->db->join ( 'item i', 'oi.item_item_id=i.item_id' );
 		$this->db->where ( 'oi.owned_item_id', $owned_item_id );
 		$this->db->where ( 'i.domain_id', $this->phpsession->get ( 'current_domain' )->getId () );
+		$this->db->where ( 'i.approved', '1');
 		$query = $this->db->get ( 'owned_item oi' );
 		$row = $query->row ();
 		$row->date_acquired = date ( "m/d/Y", strtotime ( $row->date_acquired ) );
@@ -449,6 +446,7 @@ class Item_model extends CI_Model {
 		$this->db->join ( 'manufacturer m', 'm.manufacturer_id=i.manufacturer_id' );
 		$this->db->join ( 'pictures p', 'p.item_id=i.item_id', 'left' );
 		$this->db->where ( 'i.item_id', $item_id );
+		$this->db->where ( 'i.approved', '1');
 		$query = $this->db->get ( 'item i' );
 		$row = $query->row ();
 		
@@ -594,6 +592,7 @@ else {
 		
 		$this->db->select ( 'wl.item_id' );
 		$this->db->join ( 'item i', 'wl.item_id = i.item_id' );
+		$this->db->where ( 'i.approved', '1');
 		$this->db->where ( 'wl.person_id', $person_id );
 		$this->db->where ( 'wl.item_id NOT IN (select item_item_id FROM owned_item WHERE person_id=' . $person_id . ')' );
 		$this->db->where ( 'i.domain_id', $this->phpsession->get ( 'current_domain' )->getId () );

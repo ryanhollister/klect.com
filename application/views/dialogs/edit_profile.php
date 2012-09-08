@@ -277,7 +277,7 @@
 			<div id="prem_status">Premium Status: 
 				<span id="stat_label_act" style="font-weight: bold; color: green; font-size: 13px; margin-left: 47px;">Active</span>
 				<span id="stat_label_inact" style="font-weight: bold; color: red; font-size: 13px; margin-left: 47px;">Inactive</span>
-				<a href="#" id="prem_button" class="ui-state-default ui-corner-all" style="padding: 0.5em 1em; text-decoration: none; position: relative; left: 63px;"></a>
+				<!-- <a href="#" id="prem_button" class="ui-state-default ui-corner-all" style="padding: 0.5em 1em; text-decoration: none; position: relative; left: 63px;"></a> -->
 			</div>
 			<div id="sort_ord" style="text-align:center">
 				<label for="sort" class="jui-label" style="margin-bottom:2px;">Sort "My Collection" By:</label>

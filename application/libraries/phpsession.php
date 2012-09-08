@@ -5,7 +5,7 @@ class Phpsession {
 
     // constructor
     function Phpsession() {
-		//session_save_path('temp'); 
+		session_save_path('temp/'); 
         session_start();
         $this->flashinit();
     }

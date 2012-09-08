@@ -9,6 +9,7 @@ class Members_area extends CI_Controller
 		$this->load->model('item_model');
 		$this->load->model('domain_model');
 		$this->load->model('person_model');
+		$this->load->model('community_model');
 	}
 	
 	/**
@@ -139,6 +140,10 @@ class Members_area extends CI_Controller
 	function browse_catalog($offset = 0)
 	{
 		$data['catalog_items'] = $this->item_model->getItems(false, false, $offset);
+		
+		// Add the dummy "new item"
+		array_unshift($data['catalog_items'], $this->community_model->getDummyCatalogItem());
+		
 		$this->pagination->base_url = base_url()."members_area/browse_catalog";
 		$data['additional_collections'] = $this->domain_model->getNewCollections();
 		$data['users_collections'] = $this->domain_model->getUsersCollections();

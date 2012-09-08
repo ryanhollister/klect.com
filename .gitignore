@@ -1,2 +1,19 @@
 
 .DS_Store
+
+*.svn-base
+
+application/controllers/.svn/all-wcprops
+
+*.svn
+
+.buildpath
+application/cache/*
+application/logs
+.project
+.settings
+temp/*
+db_backups/*
+*.sql
+img/mlp/*
+img/stamp/*

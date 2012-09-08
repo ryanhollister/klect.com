@@ -17,7 +17,10 @@ var DOMAIN_ITEMS = '<?=constant($this->phpsession->get('current_domain')->getTag
 </script>
 <script type="text/javascript" src="<?=base_url()?>js/<?=JQUERY_JS?>.js"></script>
 <script type="text/javascript" src="<?=base_url()?>js/klect.js"></script>
-
+<script type="text/javascript" src="<?=base_url()?>js/members_area.js"></script>
+<script type="text/javascript">
+$(document).ready(members_area.initialize);
+</script>
 
  <?php 
  if (isset($js_includes))
@@ -115,3 +118,14 @@ $('.notselected-subnav').click(function(){
 			});
 });
 </script>
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-5335449799189395";
+/* KLECT ad */
+google_ad_slot = "2426605786";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<?php if (isProd()) { ?>
+<div style="margin:auto;width:728px"><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script></div>
+<?php } ?>
