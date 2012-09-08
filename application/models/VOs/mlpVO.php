@@ -10,7 +10,7 @@ class MLPVO extends OwnedItemVO
 	public $style;
 	public $symbol;
 	
-	function __construct($inputId = "", $inputMSRP = "", $inputName = "", $inputDomain = "", $inputManufacturer = "", $inputPurchasePrice = "", $inputOwnedItemId = "", $inputDesc = "", $inputGeneration = "", $inputPosition = "")
+	function __construct($inputId = false, $inputMSRP = "", $inputName = "", $inputDomain = "", $inputManufacturer = "", $inputPurchasePrice = "", $inputOwnedItemId = "", $inputDesc = "", $inputGeneration = "", $inputPosition = "")
 	{
 		$this->setAttr_map (array (
 								0 => 'generation',

@@ -7,19 +7,19 @@
  */
 class ItemVO {
 
-	public $itemid;
+	public $itemid = false;
 	public $msrp;
 	public $name;
 	public $domain;
 	public $manufacturer;
 	public $modified;
 	public $pictures;
-	public $approved;
+	public $approved = 0;
 	
 	private $attr_map;
 	
 	
-	function __construct($inputId = "", $inputMSRP = "", $inputName = "", $inputDomain = "", $inputManufacturer = "") {
+	function __construct($inputId = false, $inputMSRP = "", $inputName = "", $inputDomain = "", $inputManufacturer = "") {
 		$this->name = $inputName;
 		$this->itemid = $inputId;
 		$this->msrp = $inputMSRP;
@@ -196,6 +196,50 @@ class ItemVO {
 		{
 			$property_name = $this->attr_map[$row->domain_attribute_id];
 			$this->$property_name = $row->value;
+		}
+	}
+	
+	public function SaveItem() {
+	
+		$CI =& get_instance();
+		
+		//Update
+		$data = array(
+			'msrp' => $this->getMsrp(),
+			'name' => $this->getName(),
+			'domain_id' => $this->getDomain(),
+			'manufacturer_id' => $this->getManufacturer(),
+			'approved' => $this->getApproved()
+		);
+	
+		if ($this->id != false)
+		{
+			$data['item_id'] = $this->id;
+			$CI->db->where('item', $this->id);
+			$result = $CI->db->update('item', $data );
+			return $result;
+		}
+		else
+		{
+			$next_id = $CI->db->query('SELECT item_id FROM item ORDER BY item_id DESC LIMIT 1')->row();
+			$data['item_id'] = $this->id = ($next_id->item_id + 1);
+			$retVal = $CI->db->insert('item', $data);
+			return $retVal;
+		}
+		
+
+		if (count($this->pictures) > 0)
+		{
+			$CI->db->delete('pictures', array('item_id' => $this->id));
+			foreach($this->pictures as $i => $picture) {
+				$CI->db->insert('pictures', array('item_id' => $this->id, 'filename' => $picture, 'order' => $i));
+			}
+		}
+		
+		$CI->db->delete('item_attribute', array('item_id' => $this->id));
+		foreach($this->attr_map as $domain_attribute_id => $attr_name) {
+			if ($this->$attr_name != "")
+				$CI->db->insert('item_attribute', array('item_id' => $this->id, 'domain_attribute_id' => $domain_attribute_id, 'value' => $this->$attr_name));
 		}
 	}
 		

@@ -3,6 +3,7 @@
 class CommunityDataVO
 {
 	private $id;
+	private $item_id;
 	private $item_attribute_id;
 	private $value;
 	private $domain_attr_ind;
@@ -16,6 +17,7 @@ class CommunityDataVO
 	}
 	
 	public function getId() { return $this->id; }
+	public function getItemId() { return $this->item_id; }
 	public function getItemAttributeId() { return $this->item_attribute_id; }
 	public function getValue() { return $this->value; }
 	public function getDomainAttrInd() { return $this->domain_attr_ind; }
@@ -23,12 +25,13 @@ class CommunityDataVO
 	public function getCreateDate() { return $this->create_date; }
 	public function getSubmittedBy() { return $this->submitted_by; }
 	public function setId($x) { $this->id = $x; }
+	public function setItemId($x) { $this->item_id = $x; }
 	public function setItemAttributeId($x) { $this->item_attribute_id = $x; }
 	public function setValue($x) { $this->value = $x; }
 	public function setDomainAttrInd($x) { $this->domain_attr_ind = $x; }
 	public function setCoreAttrName($x) { $this->core_attr_name = $x; }
 	public function setCreateDate($x) { $this->create_date = $x; }
-	public function setSubmittedBy($x) { $this->submitted_buy = $x; }
+	public function setSubmittedBy($x) { $this->submitted_by = $x; }
 	
 	public function Load()
 	{
@@ -39,7 +42,7 @@ class CommunityDataVO
 			return false;
 		}
 	
-		$CI->db->select('id, item_attribute_id, value, domain_attr_ind, core_attr_name, create_date, submitted_by');
+		$CI->db->select('id, item_id, item_attribute_id, value, domain_attr_ind, core_attr_name, create_date, submitted_by');
 		$CI->db->where('id', $this->getId());
 		$query = $CI->db->get('community_data');
 	
@@ -53,6 +56,7 @@ class CommunityDataVO
 			$this->setItemAttributeId($row[0]['item_attribute_id']);
 			$this->setValue($row[0]['value']);
 			$this->setSubmittedBy($row[0]['submitted_by']);
+			$this->setItemId($row[0]['item_id']);
 		}
 	}
 	
@@ -64,10 +68,10 @@ class CommunityDataVO
 		$data = array(
 				'item_attribute_id' => $this->getItemAttributeId(),
 				'value' => $this->getValue(),
-				'domain_attr_id' => $this->getDomainAttrInd(),
+				'domain_attr_ind' => $this->getDomainAttrInd(),
 				'core_attr_name' => $this->getCoreAttrName(),
-				'create_date' => $this->getCreateDate(),
-				'submitted_by' => $this->getSubmittedBy()
+				'submitted_by' => $this->getSubmittedBy(),
+				'item_id' => $this->getItemId()
 		);
 	
 		if ($this->id != false)

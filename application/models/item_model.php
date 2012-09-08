@@ -67,7 +67,7 @@ class Item_model extends CI_Model {
 				$tempObj->setMp_visible ( $row->mp_visible );
 				$tempObj->setCustImg ( $row->custImg );
 				$tempObj->addPicture ( $row->filename );
-				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getTag () );
+				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getId() );
 				$retVal [$row->owned_item_id] = $tempObj;
 			}
 			return $retVal;
@@ -136,7 +136,7 @@ class Item_model extends CI_Model {
 				$tempObj->setMp_visible ( $row->mp_visible );
 				$tempObj->setCustImg ( $row->custImg );
 				$tempObj->addPicture ( $row->filename );
-				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getTag () );
+				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getId() );
 				$retVal [$row->id] = $tempObj;
 			}
 			return $retVal;
@@ -208,7 +208,7 @@ class Item_model extends CI_Model {
 			foreach ( $query->result () as $row ) {
 				$tempObj = new $currVOname ( $row->item_id, $row->msrp, $row->name, "", $row->manName, "", "", $row->catalog_description );
 				$tempObj->addPicture ( $row->filename );
-				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getTag () );
+				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getId() );
 				$retVal [] = $tempObj;
 			}
 			return $retVal;
@@ -223,7 +223,7 @@ class Item_model extends CI_Model {
 	 * @param array $item_ids
 	 * 
 	 */
-	function getItems($item_ids = false, $owned_items = false, $offset = false) {
+	function getItems($item_ids = false, $owned_items = false, $offset = false, $include_unapproved = false) {
 		if (! is_object ( $this->phpsession->get ( 'current_domain' ) )) {
 			throw new Exception ( 'UserData "curr_domain" is not initialized properly' );
 		}
@@ -232,7 +232,9 @@ class Item_model extends CI_Model {
 		$this->db->join ( 'manufacturer', 'manufacturer.manufacturer_id=i.manufacturer_id' );
 		$this->db->join ( 'pictures', 'i.item_id=pictures.item_id AND pictures.order=0', 'left' );
 		$this->db->where ( 'i.domain_id', $this->phpsession->get ( 'current_domain' )->getId () );
-		$this->db->where ( 'i.approved', '1');
+		
+		if (!$include_unapproved)
+			$this->db->where ( 'i.approved', '1');
 		
 		if (is_array ( $item_ids ) && count ( $item_ids ) && ! $owned_items) {
 			$this->db->where ( 'i.item_id IN (' . implode ( ',', $item_ids ) . ')' );
@@ -261,7 +263,7 @@ class Item_model extends CI_Model {
 			foreach ( $query->result () as $row ) {
 				$tempObj = new $currVOname ( $row->item_id, $row->msrp, $row->name, "", $row->manName, "", "", $row->catalog_description );
 				$tempObj->addPicture ( $row->filename );
-				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getTag () );
+				$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getId() );
 				$retVal [] = $tempObj;
 			}
 			return $retVal;
