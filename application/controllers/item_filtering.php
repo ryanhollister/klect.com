@@ -223,6 +223,11 @@ class Item_filtering extends CI_Controller
 		elseif ($core_wheres == "" && $subselects == "")
 		{
 			switch($this->input->post('source')) {
+					case "browse_catalog":
+						$data['onClick'] = true;
+						$data['catalog_items'] = $this->item_model->getItems(false, false, $offset, true);
+						$this->load->view('modules/catalog_item', $data);
+						break;
 					case "addtocollection":
 						$data['onClick'] = true;
 						$data['catalog_items'] = $this->item_model->getItems(false, false, $offset);
@@ -271,6 +276,11 @@ class Item_filtering extends CI_Controller
 		}
 		
 		switch($this->input->post('source')) {
+			case "browse_catalog":
+				$data['onClick'] = true;
+				$data['catalog_items'] = $this->item_model->getItems($data['filter_ids'], false, $offset, true);
+				$this->load->view('modules/catalog_item', $data);
+				break;
 			case "addtocollection":
 				$data['onClick'] = true;
 				$data['catalog_items'] = $this->item_model->getItems($data['filter_ids'], false, $offset);

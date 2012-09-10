@@ -16,7 +16,7 @@
 				<span class="header-text actions">Filter</span><?=$this->load->view('includes/min_max.php');?></div>
 				<div class="cpanel-right-box-content filter_catalog" id="filter_div"><br/>
 				<?=form_open('', 'onsubmit="return false;" id="filterform" name="filterform"');?>
-				<?=form_hidden('source', 'addtocollection')?>
+				<?=form_hidden('source', 'browse_catalog')?>
 			    <?php echo validation_errors(); $filter_values = $this->phpsession->get('filter_values'); ?>	
 			    <div class="edit_input"><label for="name_core">Item Name :</label> <?=form_input('name_core', '', 'id="name_core" style="padding:0" class="ac_input ui-autocomplete-input" autocomplete="off"');?></p></div>
 			    <?php foreach($collection_attributes as $attributeId => $attributeText): ?>

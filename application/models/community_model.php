@@ -10,7 +10,7 @@ class Community_model extends CI_Model {
 		$currVOname = $this->phpsession->get ( 'current_domain' )->getTag () . 'VO';
 		$tempObj = new $currVOname ( -1, 0, "+ Add New", "", "", 0, "", "" );
 		$tempObj->addPicture ( "add_new.jpg" );
-		$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getTag () );
+		$tempObj->setDomain ( $this->phpsession->get ( 'current_domain' )->getId () );
 		return $tempObj;
 	}
 }

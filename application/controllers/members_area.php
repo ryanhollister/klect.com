@@ -139,7 +139,7 @@ class Members_area extends CI_Controller
 	 */
 	function browse_catalog($offset = 0)
 	{
-		$data['catalog_items'] = $this->item_model->getItems(false, false, $offset, TRUE);
+		$data['catalog_items'] = $this->item_model->getItems(false, false, $offset, true);
 		
 		// Add the dummy "new item"
 		array_unshift($data['catalog_items'], $this->community_model->getDummyCatalogItem());

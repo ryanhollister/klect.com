@@ -83,6 +83,8 @@ class ItemVO {
 	}
 	
 	public function getPictureURL($thumb = false, $size = "150") {
+		$CI =& get_instance();
+		$domain = $CI->domain_model->getDomainFromId($this->domain);
 		
 		if ($thumb)
 		{
@@ -95,9 +97,9 @@ class ItemVO {
 		
 		if (!isset($this->pictures[0]))
 		{
-			return "/img/".$this->domain."/".$type."/".$size."/nopic.jpg";
+			return "/img/".$domain->getTag()."/".$type."/".$size."/nopic.jpg";
 		}
-		return "/img/".$this->domain."/".$type."/".$size."/".$this->pictures[0];
+		return "/img/".$domain->getTag()."/".$type."/".$size."/".$this->pictures[0];
 	}
 	
 	public function getApproved() {
@@ -212,34 +214,36 @@ class ItemVO {
 			'approved' => $this->getApproved()
 		);
 	
-		if ($this->id != false)
+		if ($this->itemid != false)
 		{
-			$data['item_id'] = $this->id;
-			$CI->db->where('item', $this->id);
+			$data['item_id'] = $this->itemid;
+			$CI->db->where('item_id', $this->itemid);
 			$result = $CI->db->update('item', $data );
-			return $result;
+			if(!result) return;
 		}
 		else
 		{
 			$next_id = $CI->db->query('SELECT item_id FROM item ORDER BY item_id DESC LIMIT 1')->row();
-			$data['item_id'] = $this->id = ($next_id->item_id + 1);
+			$data['item_id'] = $this->itemid = ($next_id->item_id + 1);
 			$retVal = $CI->db->insert('item', $data);
-			return $retVal;
+			if(!$retVal) return;
 		}
 		
 
 		if (count($this->pictures) > 0)
 		{
-			$CI->db->delete('pictures', array('item_id' => $this->id));
+			$CI->db->delete('pictures', array('item_id' => $this->itemid));
 			foreach($this->pictures as $i => $picture) {
 				$CI->db->insert('pictures', array('item_id' => $this->id, 'filename' => $picture, 'order' => $i));
 			}
 		}
 		
-		$CI->db->delete('item_attribute', array('item_id' => $this->id));
+		$CI->db->delete('item_attribute', array('item_id' => $this->itemid));
 		foreach($this->attr_map as $domain_attribute_id => $attr_name) {
 			if ($this->$attr_name != "")
-				$CI->db->insert('item_attribute', array('item_id' => $this->id, 'domain_attribute_id' => $domain_attribute_id, 'value' => $this->$attr_name));
+			{
+				$CI->db->insert('item_attribute', array('item_id' => $this->itemid, 'domain_attribute_id' => $domain_attribute_id, 'value' => $this->$attr_name));
+			}
 		}
 	}
 		

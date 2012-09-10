@@ -210,6 +210,10 @@ class OwnedItemVO extends ItemVO {
 	
 		public function getPictureURL($thumb = false, $size = "150", $force_stock = false) {
 		
+		$CI =& get_instance();
+		$CI->load->model('domain_model');
+		$domain = $CI->domain_model->getDomainFromId($this->domain);
+		
 		if ($thumb)
 		{
 			$type = "thumbs";
@@ -221,13 +225,13 @@ class OwnedItemVO extends ItemVO {
 		
 		if (!isset($this->pictures[0]) && ($this->getCustImg() == 'stock' || $force_stock))
 		{
-			return "/img/".$this->domain."/".$type."/".$size."/nopic.jpg";
+			return "/img/".$domain->getTag()."/".$type."/".$size."/nopic.jpg";
 		}
 		elseif($this->getCustImg() != 'stock' && !$force_stock)
 		{
-			return "/img/".$this->domain."/".$type."/".$size."/customs/".$this->getCustImg();
+			return "/img/".$domain->getTag()."/".$type."/".$size."/customs/".$this->getCustImg();
 		}
-		return "/img/".$this->domain."/".$type."/".$size."/".$this->pictures[0];
+		return "/img/".$domain->getTag()."/".$type."/".$size."/".$this->pictures[0];
 	}	
 
 }
